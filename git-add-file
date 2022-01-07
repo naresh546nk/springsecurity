@@ -1,0 +1,19 @@
+creat git repository
+
+opent the terminal (git bash)
+
+git init (to initialize the local git)
+
+git add .  (to add the file in local git )
+
+git commit -m "comment"  (to commit the change in local git )
+
+ git remote add origine https://github.com/naresh546nk/spring_security.git
+                                       |
+                                  git repository url
+                                  
+                                  
+git remote -v (to verify the repository)
+
+
+git push origine master (to push local git file to remote git )
