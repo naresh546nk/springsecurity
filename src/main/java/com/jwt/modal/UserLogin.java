@@ -3,8 +3,10 @@ package com.jwt.modal;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.springframework.context.annotation.Scope;
+
 @Entity
-public class UserLogin {
+public class UserLogin { 
 	@Id
 	private String username;
 	private String password;

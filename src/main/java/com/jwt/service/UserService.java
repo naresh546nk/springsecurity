@@ -27,10 +27,8 @@ public class UserService implements UserDetailsService {
 		// TODO Auto-generated method stub
 		//get user from database using the username ;
 		
-		UserLogin login = userLoginRepo.getById(username);
-		if(login==null) {
-			throw new UsernameNotFoundException(username);
-		}
+		UserLogin login = userLoginRepo.findById(username).get();
+		//System.out.println("userName: "+login.getUsername() +"password :"+ login.getPassword());
 		
 		return new User(username, login.getPassword(), new ArrayList<>());
 
@@ -45,7 +43,7 @@ public class UserService implements UserDetailsService {
 		return userLoginRepo.save(userLogin);
 	}
 
-	public UserLogin login(UserLogin userLogin) {
+	public UserLogin login(UserLogin userLogin) throws Exception {
 		UserLogin userLogin2 = userLoginRepo.findById(userLogin.getUsername()).get();
 		
 //		System.out.println("==============================================================================");
@@ -55,12 +53,12 @@ public class UserService implements UserDetailsService {
 //		System.out.println("==============================================================================");
 //		System.out.println("userName: "+userLogin2.getUsername());
 //		System.out.println("password: "+userLogin2.getPassword());
-//		boolean matches = bCryptEncoder.matches(userLogin.getPassword(), userLogin2.getPassword());
-//		if(matches) {
-//			return userLogin2;
-//		}
-//		throw new Exception("Credential has not matched ...");
-		return userLogin2;
+		boolean matches = bCryptEncoder.matches(userLogin.getPassword(), userLogin2.getPassword());
+		if(matches) {
+			return userLogin2;
+		}
+		throw new Exception("Credential has not matched ...");
+		
 
 	}
 	

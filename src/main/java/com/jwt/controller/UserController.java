@@ -19,8 +19,11 @@ import com.jwt.modal.UserLogin;
 import com.jwt.service.UserService;
 import com.jwt.utility.JwtUtilltiy;
 
+
+
 @RestController
 //@RequestMapping("/user")
+//@Slf4j
 public class UserController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -31,15 +34,21 @@ public class UserController {
 	@Autowired
 	private JwtUtilltiy jwtUtilltiy;
 	
-	@Autowired
-	private PasswordEncoder bCryptEncode;
+
 	
 	
-	@GetMapping("/")
+	@GetMapping("/api")
 	public String test() {
+		System.out.println("calling test controller");
+		//log.info("Calling test method");
 		return "User api is working fine with JWT token ...";
 	}
 	
+	@GetMapping("/test")
+	public String testing() {
+		System.out.println("calling api");
+		return "Testing the api without jwt token. ...";
+	}
 	
 	@PostMapping("/user")
 	public UserLogin addUser(@RequestBody UserLogin userLogin) {

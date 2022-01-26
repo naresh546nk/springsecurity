@@ -18,7 +18,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.jwt.service.UserService;
 import com.jwt.utility.JwtUtilltiy;
 
+
 @Component
+//@Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 	
 	@Autowired
@@ -30,18 +32,21 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		System.out.println("calling doFilterInternal");
 		String authorization= request.getHeader("Authorization");
 		String token=null;
 		String userName=null;
 		
-		if(authorization!=null && authorization.startsWith("Bearer ") ) {
+		if(authorization!=null && authorization.startsWith("Bearer") ) {
 			token=authorization.substring(7);
+			System.out.println("token : "+token);
 			userName=jwtUtilltiy.getUsernameFromToken(token);
+			System.out.println("username: "+userName);
 		}
 		
 		if(userName!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
 			UserDetails userDetails=userService.loadUserByUsername(userName);
-			
+			System.out.println("userdetails:"+userDetails);
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=new
 					UsernamePasswordAuthenticationToken( userDetails, null,userDetails.getAuthorities());
 			
@@ -50,6 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
 			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			
 		}
+		System.out.println("end do fileter ");
 		filterChain.doFilter(request, response);
 
 	}
